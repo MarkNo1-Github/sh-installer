@@ -1,0 +1,5 @@
+{
+  "version": "0.1",
+  "script_folder": "./all-install-scripts",
+  "log_folder": "/tmp/sh-installer"
+}

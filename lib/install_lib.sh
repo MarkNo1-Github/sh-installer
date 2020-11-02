@@ -1,6 +1,31 @@
 #! /bin/bash
 
-source json_lib.sh
+source lib/json_lib.sh
+
+function get_profile_path () { current_path=$1; profile="all.json"
+  if [ -z "$2" ]
+    then
+      echo "Default profile selected"
+  else
+      profile=$2
+      echo "Custom profile selected"
+  fi
+
+  export PROFILE_PATH="$curret_path/profiles/$profile"
+  echo "Target profile path: ${PROFILE_PATH}"
+}
+
+function get_version () { profile_path=$1
+  echo $(get_json_var $profile_path version)
+}
+
+function get_script_folder () { profile_path=$1
+  echo $(get_json_var $profile_path script_folder)
+}
+
+function get_log_folder () { profile_path=$1
+  echo $(get_json_var $profile_path log_folder)
+}
 
 
 function curret_path () {
@@ -14,7 +39,6 @@ function check_toilet () {
 function install_toilet () {
   sudo apt install toilet
 }
-
 
 # Spinner Function
 function Spinner(){ target_pid=$1
