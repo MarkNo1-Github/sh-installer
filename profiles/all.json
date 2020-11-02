@@ -7,5 +7,6 @@
     "brave.sh",
     "clion.sh",
     "glances.sh",
-    "zsh.sh" ]
+    "zsh.sh",
+    "oh_zsh.sh"]
 }
