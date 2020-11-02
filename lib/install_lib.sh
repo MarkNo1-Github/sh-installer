@@ -2,17 +2,12 @@
 
 source lib/json_lib.sh
 
-function get_profile_path () { current_path=$1; profile="all.json"
-  if [ -z "$2" ]
-    then
-      echo "Default profile selected"
-  else
-      profile=$2
-      echo "Custom profile selected"
+function get_profile_path () { path=$1 ; profile=$2
+  if [ -z "$profile" ]; then
+      profile="all.json"
   fi
 
-  export PROFILE_PATH="$curret_path/profiles/$profile"
-  echo "Target profile path: ${PROFILE_PATH}"
+  echo "${path}/profiles/$profile"
 }
 
 function get_version () { profile_path=$1
@@ -79,28 +74,39 @@ function Launch() { script_path=$1 ; log_path=$2
 }
 
 
-# function InstallScriptsFromConfigFile() {  CONFIG_PATH=$1; script_folder=$2; logs_folder=$3
-#   TOOLS_NUMBER=$(get_lib_counter $CONFIG_PATH)
-#   echo "Tools Selected: $TOOLS_NUMBER"
-#
-#   shopt -s nullglob
-#   for (( i=0; i<TOOLS_NUMBER; i++ ))
-#   do
-#     LIBS_NAME=$(get_tool_number $CONFIG_PATH $i)
-#     LIBS_PATH=$script_folder/$LIBS_NAME.sh
-#
-#     if [ -f "$LIBS_PATH" ]; then
-#
-#           LOG_FILE=$logs_folder/${LIBS_NAME/.sh/.log}
-#
-#           printf "[$TOOL_COUNTER/$TOOLS_NUMBER] Installing $LIBS_NAME  "
-#           # Install Lib
-#           InstallScript $LIBS_PATH $LOG_FILE
-#           # Increment counter
-#           ((TOOL_COUNTER+=1))
-#     fi
-#   done
-# }
+function get_script_n () { profile_path=$1
+  echo $(get_json_var_length $profile_path scripts)
+}
+
+function get_script_at () { profile_path=$1; idx=$2
+  var="scripts[$idx]"
+  echo $(get_json_var $profile_path "$var")
+}
+
+
+function InstallScriptsFromProfile() {  profile_path=$1; script_folder=$2; logs_folder=$3
+
+  # Total number of scripts
+  total_scripts=$(get_script_n $profile_path)
+  # Create logs folde if not exist
+  mkdir -p "$logs_folder"
+
+  for (( i=0; i<total_scripts; i++ )); do
+
+    script_name=$(get_script_at $profile_path "$i")
+    script_path=$script_folder/$script_name
+
+    if [ -f "$script_path" ]; then
+          log_file=$logs_folder/${script_name/.sh/.log}
+
+          printf "[$i/$total_scripts] launching $script_name   "
+          Launch $script_path $log_file
+    else
+      echo "$script_path dosen't exist !!! "
+    fi
+
+  done
+}
 
 # Install all script inside target folder ending with .sh
 function LaunchScriptsFromFolder() { script_folder=$1; logs_folder=$2

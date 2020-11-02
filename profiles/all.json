@@ -1,5 +1,11 @@
 {
   "version": "0.1",
-  "script_folder": "./all-install-scripts",
-  "log_folder": "/tmp/sh-installer"
+  "log_folder": "/tmp/sh-installer/",
+  "scripts": [
+    "basics.sh",
+    "atom.sh",
+    "brave.sh",
+    "clion.sh",
+    "glances.sh",
+    "zsh.sh" ]
 }

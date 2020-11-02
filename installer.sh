@@ -9,18 +9,16 @@ source "$installer_path/lib/json_lib.sh"
 clear
 toilet -F metal "sh-instal"
 
-get_profile_path $installer_path $1
-PROFILE_PATH="$installer_path$PROFILE_PATH"
+profile_path="$(get_profile_path $installer_path $1)"
 
-version=$(get_version $PROFILE_PATH)
-script_folder=$(get_script_folder $PROFILE_PATH)
-log_folder=$(get_log_folder $PROFILE_PATH)
+version=$(get_version $profile_path)
+scripts_folder="$installer_path/scripts"
+log_folder=$(get_log_folder $profile_path)
 
 echo -e "\nProfile:"
+echo -e "\tPath: $profile_path"
 echo -e "\tVersion: $version"
-echo -e "\tScripts folder: $script_folder"
 echo -e "\tLog folder: $log_folder\n\n"
 
-mkdir -p "$log_folder"
-
-LaunchScriptsFromFolder $script_folder $log_folder
+# LaunchScriptsFromFolder $script_folder $log_folder
+InstallScriptsFromProfile $profile_path $scripts_folder $log_folder

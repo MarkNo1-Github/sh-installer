@@ -12,5 +12,5 @@ function get_json_var_length(){ file=$1 ; var=$2
 
 # Get item on array at index
 function get_json_array_item() { file=$1 ; var=$2 ; idx=$3
-  $(get_json_var $file "$var[$idx]")
+  echo $(get_json_var $file '$var[$idx]')
 }
