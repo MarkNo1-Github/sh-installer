@@ -1,0 +1,5 @@
+{
+  "version": "0.1",
+  "log_folder": "/tmp/sh-installer/",
+  "scripts": [ "zsh.sh" ]
+}
