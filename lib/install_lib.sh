@@ -7,6 +7,15 @@ function curret_path () {
   echo "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 }
 
+function check_toilet () {
+  if [ -z `which toilet` ]; then  echo "0"; fi
+}
+
+function install_toilet () {
+  sudo apt install toilet
+}
+
+
 # Spinner Function
 function Spinner(){ target_pid=$1
   sp='/-\|'
